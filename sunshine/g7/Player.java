@@ -67,10 +67,8 @@ public class Player extends sunshine.queuerandom.QueuePlayer {
 				}
 				far.remove(i);
 		    }
-		}
-		far.remove(i);
-	    }
 	}
+
     
 
 	int x = far.size() % n;
