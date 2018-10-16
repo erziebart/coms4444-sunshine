@@ -50,24 +50,23 @@ public class Player extends sunshine.queuerandom.QueuePlayer {
         //this.currentClump = new ArrayList<PointClump>();
 
     	Point farthest = this.near.peek();
-    	while (farthest != null && this.near.size() >= 11*n ) {
-    		this.far.addAll(splitter.splitUpPoints(PointUtils.pollNElements(this.near, 11*n)));
+    	while (farthest != null && Math.hypot(farthest.x, farthest.y) > 100 /* Thanks Quincy! */ ) {
+    		int nTracker = PointUtils.numTracker(farthest, m, bales.size());
+    		System.err.println(nTracker);
+    		this.far.addAll(splitter.splitUpPoints(PointUtils.pollNElements(this.near, 11*nTracker)));
     		farthest = this.near.peek();
     	}
 
-	for (int i=1; i<n; i++) {
-	    while (farthest != null && this.near.size() >= 11*(n-i) ) {
-    		this.far.addAll(splitter.splitUpPoints(PointUtils.pollNElements(this.near, 11*(n-i))));
-    		farthest = this.near.peek();		
-	    }
-	}
     	//stem.out.println(this.near.size());
     	//stem.out.println(this.far.size());
 
-	for (int i = far.size()-1; i<=0; i--) {
-	    if (far.get(i).barnClump) {
-		for ( Point bale : far.get(i) ) {
-		    near.add(bale);
+	for (int i = far.size()-1; i>=0; i--) {
+		    if (far.get(i).barnClump) {
+				for ( Point bale : far.get(i) ) {
+				    near.add(bale);
+				}
+				far.remove(i);
+		    }
 		}
 		far.remove(i);
 	    }
@@ -128,10 +127,10 @@ public class Player extends sunshine.queuerandom.QueuePlayer {
     		}
     		ret.addTrailerPickup(first);
     	} else if(near.size() > 0) {
-    		if(tractor.getAttachedTrailer != null) {
-		    ret.add(new Command(CommandType.DETATCH));
-		}
-		ret.addRetrieveBale(near.poll());
+    		if(tractor.getAttachedTrailer() != null) {
+    			ret.add(new Command(CommandType.DETATCH));
+    		}
+    		ret.addRetrieveBale(near.poll());
     	} else {
     		ret.add(new Command(CommandType.ATTACH));
     	}
