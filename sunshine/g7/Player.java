@@ -126,9 +126,12 @@ public class Player extends sunshine.queuerandom.QueuePlayer {
     		if(tractor.getAttachedTrailer() == null) {
     			ret.add(new Command(CommandType.ATTACH));
     		}
-    		ret.addTrailerPickup(far.pollFirst());
+    		ret.addTrailerPickup(first);
     	} else if(near.size() > 0) {
-    		ret.addRetrieveBale(near.poll());
+    		if(tractor.getAttachedTrailer != null) {
+		    ret.add(new Command(CommandType.DETATCH));
+		}
+		ret.addRetrieveBale(near.poll());
     	} else {
     		ret.add(new Command(CommandType.ATTACH));
     	}
