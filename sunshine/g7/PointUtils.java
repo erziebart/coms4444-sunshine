@@ -54,4 +54,17 @@ class PointUtils {
 		}
 
 	}
+
+	public static Point getClosebyPoint(Point to, Point from) {
+		Point direction = new Point(from.x - to.x, from.y - to.y);
+		double mag = Math.hypot(direction.x, direction.y);
+		Point meter = new Point(direction.x/(mag+0.000000001), direction.y/(mag+0.000000001));
+		Point target = new Point(to.x + meter.x, to.y + meter.y);
+		if (Math.hypot(to.x-from.x,to.y-from.y) > Math.hypot(target.x-from.x,target.y-from.y)) {
+			return target;
+		} else {
+
+			return from;
+		}
+	}
 }
