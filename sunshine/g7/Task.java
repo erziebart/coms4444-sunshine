@@ -48,16 +48,16 @@ class Task extends ArrayList<Command> {
 		
 		for (Point bale: clump) {
 			if (bale == last) {
-				add(Command.createMoveCommand(bale));
+				add(Command.createMoveCommand(PointUtils.getClosebyPoint(bale, dropoff)));
 				add(new Command(CommandType.LOAD));
-				add(Command.createMoveCommand(dropoff));
+				add(Command.createMoveCommand(PointUtils.getClosebyPoint(dropoff, bale)));
 			} else {
 				addBaleToTrailer(bale, dropoff);
 			}
 		}
 
 		add(new Command(CommandType.ATTACH));
-		add(Command.createMoveCommand(barn));
+		add(Command.createMoveCommand(PointUtils.getClosebyPoint(barn, dropoff)));
 		add(new Command(CommandType.DETATCH));
 
 		add(new Command(CommandType.UNLOAD));
