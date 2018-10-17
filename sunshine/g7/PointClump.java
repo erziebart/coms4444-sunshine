@@ -20,6 +20,8 @@ class PointClump extends ArrayList<Point> {
 
     public Point dropPoint;
     public boolean barnClump;
+    public double tractorTime;
+    public double trailerTime;
     // public Tractor tractor;
     // public Trailer trailer;
 
@@ -33,9 +35,9 @@ class PointClump extends ArrayList<Point> {
 	
 	setDropPoint();
 
-	double trailerCost = trailerTime();
-	double tractorCost = tractorTime();
-	barnClump = ( trailerCost > tractorCost );
+	trailerTime = trailerTime();
+	tractorTime = tractorTime();
+	barnClump = ( trailerTime > tractorTime );
 
 	//	System.out.println("tractor cost: " + tractorCost + "\t trailer cost: " + trailerCost + "\t barnClump: " + barnClump);
 

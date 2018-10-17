@@ -67,14 +67,61 @@ public class Player extends sunshine.queuerandom.QueuePlayer {
 				}
 				far.remove(i);
 		    }
-		}
-    }
+	}
+
     
 
-    public ArrayList<Command> getMoreCommands(Tractor tractor)
-    {
-    	Task ret = new Task();
-    	if(far.size() > 0) {
+	int x = far.size() % n;
+
+	if (x != 0) {
+
+	    Collections.sort( far, new Comparator<PointClump>() {
+		    @Override
+		    public int compare(PointClump p1, PointClump p2) {
+			return (int) Math.signum( p1.tractorTime - p2.tractorTime);
+		    }} );
+
+
+	    List closeClumps = new LinkedList<PointClump>();
+	    for ( PointClump c: far.subList(0, x)){
+		closeClumps.add(c);
+	    }
+
+	    double barnTime = 0;
+	    for (Object p : near.toArray()) {
+		Point bale = (Point) p;
+		barnTime = barnTime + Math.sqrt( bale.x*bale.x + bale.y*bale.y ) + 10*10; //distance traveled plus load time
+	    }
+
+	    barnTime = barnTime * 2; //travel back and unload
+
+	    while ( x != 0 && barnTime/(n-x) < ( ((PointClump) closeClumps.get(x-1)).trailerTime + 10*10*11 ) ) {
+		for ( Point p : far.get(0) ) {
+		    barnTime = barnTime + Math.sqrt( p.x*p.x + p.y*p.y ) + 10*10; //distance traveled plus load time
+		    barnTime = barnTime*2;
+		    near.add(p);
+		}
+		far.remove(0);
+		x--;
+	    }
+	
+	}
+
+	Collections.sort( far, new Comparator<PointClump>() {
+		@Override
+		public int compare(PointClump p1, PointClump p2) {
+		    return (int) Math.signum( p2.trailerTime - p1.trailerTime);
+		}} );
+	
+	
+    }
+
+
+	
+	public ArrayList<Command> getMoreCommands(Tractor tractor)
+	{
+	    Task ret = new Task();
+	    if(far.size() > 0) {
     		PointClump first = far.pollFirst();
     		if(tractor.getAttachedTrailer() == null) {
     			ret.add(new Command(CommandType.ATTACH));
