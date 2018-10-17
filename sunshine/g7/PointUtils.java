@@ -35,6 +35,9 @@ class PointUtils {
 		double radiusStep = Math.sqrt(fieldSize*fieldSize/numBales*11);
 		double farthestRadius = Math.sqrt(farthest.x*farthest.x+farthest.y*farthest.y);
 		double nearestRadius = farthestRadius - radiusStep;
+		if (nearestRadius<fieldSize && nearestRadius>fieldSize-radiusStep/5){
+			nearestRadius=fieldSize;
+		}
 		double farVolume = getVolume(farthestRadius,fieldSize);
 		double nearVolume = getVolume(nearestRadius,fieldSize);
 		//System.err.println(farthestRadius+"-"+(farVolume-nearVolume));
