@@ -52,7 +52,7 @@ public class Player extends sunshine.queuerandom.QueuePlayer {
     	Point farthest = this.near.peek();
     	while (farthest != null && Math.hypot(farthest.x, farthest.y) > 100 /* Thanks Quincy! */ ) {
     		int nTracker = PointUtils.numTracker(farthest, m, bales.size());
-    		System.err.println(nTracker);
+    		//System.err.println(nTracker);
     		this.far.addAll(splitter.splitUpPoints(PointUtils.pollNElements(this.near, 11*nTracker)));
     		farthest = this.near.peek();
     	}
