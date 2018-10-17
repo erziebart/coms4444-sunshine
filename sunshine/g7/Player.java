@@ -86,7 +86,7 @@ public class Player extends sunshine.queuerandom.QueuePlayer {
     		}
     		ret.addRetrieveBale(near.poll());
     	} else {
-    		ret.add(new Command(CommandType.ATTACH));
+    		ret.add(new Command(CommandType.UNSTACK));
     	}
 
     	return ret;

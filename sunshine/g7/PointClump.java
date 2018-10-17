@@ -1,6 +1,8 @@
 package sunshine.g7;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.ArrayList;
 import java.lang.Math;
 import java.lang.Double;
@@ -37,7 +39,17 @@ class PointClump extends ArrayList<Point> {
 
 	//	System.out.println("tractor cost: " + tractorCost + "\t trailer cost: " + trailerCost + "\t barnClump: " + barnClump);
 
-	    
+	Collections.sort(this, new Comparator<Point>() {
+			@Override
+			public int compare(Point p1, Point p2) {
+				double dx1, dx2, dy1, dy2;
+				dx1 = p1.x-dropPoint.x;
+				dx2 = p2.x-dropPoint.x;
+				dy1 = p1.y-dropPoint.y;
+				dy2 = p2.y-dropPoint.y;
+				return (int)Math.signum(Math.hypot(dx1, dy1) - Math.hypot(dx2, dy2));
+			}
+		});
     }
     
     public PointClump() {
@@ -154,7 +166,7 @@ class PointClump extends ArrayList<Point> {
     public void setDropPoint() {
 	//System.out.println("setting drop point");
 	dropPoint = geometricMean();
-	dropPoint=findCloset(dropPoint);
+	//dropPoint=findCloset(dropPoint);
 	//System.out.println("dropPoint is: " + dropPoint.x + ", " + dropPoint.y);
     }
     
