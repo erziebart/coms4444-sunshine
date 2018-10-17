@@ -82,7 +82,10 @@ public class Player extends sunshine.queuerandom.QueuePlayer {
 		    }} );
 
 
-	    List closeClumps = far.subList(0, x);	
+	    List closeClumps = new LinkedList<PointClump>();
+	    for ( PointClump c: far.subList(0, x)){
+		closeClumps.add(c);
+	    }
 
 	    double barnTime = 0;
 	    for (Object p : near.toArray()) {
@@ -92,7 +95,7 @@ public class Player extends sunshine.queuerandom.QueuePlayer {
 
 	    barnTime = barnTime * 2; //travel back and unload
 
-	    while ( x != 0 && barnTime/(n-x) < ( ((PointClump) closeClumps.get(x-1)).trailerTime + 10*10*22 ) ) {
+	    while ( x != 0 && barnTime/(n-x) < ( ((PointClump) closeClumps.get(x-1)).trailerTime + 10*10*11 ) ) {
 		for ( Point p : far.get(0) ) {
 		    barnTime = barnTime + Math.sqrt( p.x*p.x + p.y*p.y ) + 10*10; //distance traveled plus load time
 		    barnTime = barnTime*2;
